@@ -91,6 +91,15 @@ angular.module('ngCollection', []).
         return this.hash[obj[this.idAttribute] || obj];
       },
 
+      //added by me
+      getByObjectId: function(objectId) {
+        for (var i = 0; i < this.array.length; i++){
+          if(this.array[i].objectId == objectId){
+            return this.array[i];
+          }
+        }
+      },
+
       find: function(expr, value, deepCompare){
         var compareFn = expr;
         if (typeof expr === 'string'){
