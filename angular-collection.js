@@ -28,6 +28,7 @@ angular.module('ngCollection', []).
       options || (options = {});
       if (options.comparator !== void 0) this.comparator = options.comparator;
       this.idAttribute = options.idAttribute || this.idAttribute;
+      this.model = options.model;
       this.current = null;
       this._reset();
       this.initialize.apply(this, arguments);
@@ -38,6 +39,15 @@ angular.module('ngCollection', []).
       idAttribute: 'id',
 
       initialize: function() { },
+
+      query: function(params) {
+        var self = this;
+        self._reset();
+        return this.model.query(params).then(function(response) {
+          self.addAll(response);
+          return self.all();
+        });
+      },
 
       add: function(obj, options) {
         options || (options = {});
