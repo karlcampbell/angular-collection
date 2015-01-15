@@ -43,7 +43,7 @@ angular.module('ngCollection', []).
       query: function(params) {
         var self = this;
         self._reset();
-        return this.model.query(params).then(function(response) {
+        return this.model.query(function(response) {
           self.addAll(response);
           return self.all();
         });
