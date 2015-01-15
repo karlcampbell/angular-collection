@@ -7,7 +7,7 @@
     "type": "git",
     "url": "git://github.com/tomkuk/angular-collection.git"
   },
-  "main": "./angular-collection.min.js",
+  "main": "./angular-collection.js",
   "ignore": [
     "test",
     ".gitignore",
