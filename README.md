@@ -79,6 +79,7 @@ var todos = TodoCollection.getInstance();
 ```js
 todos.add({ title: "todo1" });
 todos.add({ title: "todo2" });
+todos.add({ title: "todo0" }, {index: 0});
 ```
 
 ###Get a single record
@@ -107,6 +108,27 @@ If a record is already in the collection, its attributes will be merged.
 
 ```js
 	todos.at(1);
+```
+
+####Sort records as they are added to collection
+
+Sort the collection by title descending each time you call add()
+
+```js
+	var todos = $collection.getInstance({comparator: "-title"});
+	todos.add({ title: "todo1" });		// performs sort
+	todos.add({ title: "todo2" });		// performs sort
+```
+
+####Sort records on demand
+
+Sorts the collection by title descending but only when sort() is called
+
+```js
+	var todos = $collection.getInstance();
+	todos.add({ title: "todo1" });
+	todos.add({ title: "todo2" });
+	todos.sort('-title');			// performs sort
 ```
 
 ## Options

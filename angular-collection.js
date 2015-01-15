@@ -1,6 +1,6 @@
 /**
  * Angular Collection - The Collection module for AngularJS
- * @version v0.4.0 - 2013-08-19
+ * @version v0.5.1 - 2014-12-03
  * @author Tomasz Kuklis
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -51,9 +51,14 @@ angular.module('ngCollection', []).
 
       add: function(obj, options) {
         options || (options = {});
-        var id, sort, sortAttr, existing;
-        sort = this.comparator && options.sort !== false;
-        sortAttr = angular.isString(this.comparator) ? this.comparator : null;
+        var id, sort, existing, index;
+        sort = options.sort !== false;
+
+        if (options.index !== void 0) {
+          index = options.index;
+        } else {
+          index = this.array.length;
+        }
 
         if (!obj[this.idAttribute]) {
           obj[this.idAttribute] = guid();
@@ -65,7 +70,7 @@ angular.module('ngCollection', []).
           id = obj[this.idAttribute];
 
           this.hash[id] = obj;
-          this.array.push(obj);
+          this.array.splice(index, 0, obj);
           this.length += 1;
         }
 
@@ -76,7 +81,7 @@ angular.module('ngCollection', []).
 
       addAll: function(objArr, options) {
         options || (options = {});
-        var sort = this.comparator && options.sort !== false;
+        var sort = options.sort !== false;
 
         for (var i = 0; i < objArr.length; i++) {
           var obj = objArr[i];
@@ -88,9 +93,11 @@ angular.module('ngCollection', []).
         return this;
       },
 
-      sort: function() {
-        if (angular.isString(this.comparator)) {
-          this.array = $filter('orderBy')(this.array, this.comparator);
+      sort: function(comparator) {
+        var comparator = comparator || this.comparator;
+
+        if (comparator) {
+          this.array = $filter('orderBy')(this.array, comparator);
         }
 
         return this;
