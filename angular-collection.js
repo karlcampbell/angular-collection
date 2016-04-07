@@ -8,7 +8,7 @@
 'use strict';
 
 angular.module('ngCollection', []).
-  factory('$collection', ['$filter','$parse', function($filter,$parse) {
+  factory('$collection', ['$filter','$parse','$interval', function($filter,$parse,$interval) {
 
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)
@@ -34,6 +34,9 @@ angular.module('ngCollection', []).
       this.initialize.apply(this, arguments);
     }
 
+
+
+
     Collection.prototype = {
 
       idAttribute: 'id',
@@ -48,6 +51,36 @@ angular.module('ngCollection', []).
           return self.all();
         });
       },
+
+      queryParams: function(params) {
+        var self = this;
+        return this.refresh(params);
+
+      },
+
+
+      refresh: function(params) {
+        if(!params) {
+          params = this.params;
+        } else {
+          this.params = params;
+          if(this.interval) {
+            $interval.cancel(this.interval)
+          }
+          this.interval = $interval(function() {
+            self.refresh();
+          }, 60000);
+        }
+        var self = this;
+
+        self._reset();
+        return this.model.queryParams(params).then(function(response) {
+          self.addAll(response.data);
+          return self.all();
+        });
+
+      },
+
 
       add: function(obj, options) {
         options || (options = {});
