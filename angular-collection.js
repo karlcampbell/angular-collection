@@ -67,9 +67,11 @@ angular.module('ngCollection', []).
           if(this.interval) {
             $interval.cancel(this.interval)
           }
+          /*
           this.interval = $interval(function() {
             self.refresh();
           }, 60000);
+          */
         }
         var self = this;
 
@@ -144,7 +146,7 @@ angular.module('ngCollection', []).
       //added by me
       getByObjectId: function(objectId) {
         for (var i = 0; i < this.array.length; i++){
-          if(this.array[i].objectId == objectId){
+          if(this.array[i][this.idAttribute] == objectId){
             return this.array[i];
           }
         }
@@ -248,6 +250,10 @@ angular.module('ngCollection', []).
       all: function() {
         return this.array;
       },
+
+        allHash: function() {
+            return this.hash;
+        },
 
       _reset: function() {
         this.length = 0;
