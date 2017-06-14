@@ -49,6 +49,8 @@ angular.module('ngCollection', []).
         return this.model.query(function(response) {
           self.addAll(response);
           return self.all();
+        }, function() {
+
         });
       },
 
@@ -79,6 +81,8 @@ angular.module('ngCollection', []).
         return this.model.queryParams(params).then(function(response) {
           self.addAll(response.data);
           return self.all();
+        }, function () {
+
         });
 
       },
